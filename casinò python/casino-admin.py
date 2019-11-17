@@ -1,0 +1,80 @@
+import random
+import requests
+import os
+import socket
+import hashlib
+import time
+import datetime
+import uuid
+import platform
+import subprocess
+
+ip = requests.get("https://api.myip.com")
+hostname = socket.gethostname()
+IPAddr = socket.gethostbyname(hostname)
+F = socket.gethostname()
+
+def logadmin(): #logadmin
+    nome = str(input("inserire nome utente "))
+    with open('admin.txt') as f:
+        for line in f:
+            line = line.strip()
+            print(f'{hashlib.sha256(nome.encode()).hexdigest()} --> {nome}')
+            if hashlib.sha256(nome.encode()).hexdigest() == line:
+                print('nome utente corretto')
+                password = str(input("password "))
+                with open('admin.txt') as f:
+                    for line in f:
+                        line = line.strip()
+                        print(f'{hashlib.sha256(password.encode()).hexdigest()} --> {password}')
+                        if hashlib.sha256(password.encode()).hexdigest() == line:
+                            print("accesso autorizzato")
+                            admin()
+                        else:
+                            print("nome utente non corretto ")
+                        with open('accesso.txt') as file:
+                            testate = open('accesso.txt', 'a')
+                            testate.write("attenzione rilevato con password errato alle " + tempo + '\n' + "Dati " + '\n' + ip.text + hostname + IPAddr + platform.platform())
+                            testate.close()
+            else:
+                print("nome utente non corretto ")
+                tempo = str(datetime.datetime.now())
+            with open('accesso.txt') as file:
+                testate = open('accesso.txt', 'a')
+                testate.write('\n' + "attenzione rilevato con nome errato alle " + tempo + '\n' + "Dati " + '\n' + ip.text + '\n' + 'Nome pc ' + hostname + '\n' + 'IP del pc ' + IPAddr + '\n' + 'OS ' + platform.platform())
+                testate.close()
+                exit()
+                
+def bannare(): #banna solo admin
+    with open('ban.txt') as file:
+        contents = file.read()
+        banned = open('ban.txt', 'a')
+        utente = input("inserire utente")
+        banned.write('\n' + utente)
+        banned.close()
+def lista():
+    with open('ban.txt') as file:
+        f = open('ban.txt','r')
+        giocatori = file.read()
+        print('lista: ')
+        print(giocatori)
+def unban(): 
+    x=str(input("utente da sbannare "))
+    with open("ban.txt", "r") as f:
+        lines = f.readlines()
+    with open("ban.txt", "w") as f:
+        for line in lines:
+            if line.strip("\n") != x:
+                f.write(line)
+def admin():
+    lista()
+    scelta = int(input("1-ban,2-sban"))
+    if scelta == 1:
+        bannare()
+    elif scelta == 2:
+        unban()
+
+def main():
+    logadmin()
+
+main()
