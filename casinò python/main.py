@@ -254,11 +254,10 @@ def roulette():
     coloreWin =   random.randint(1,2)
     numeroWin =  random.randint(1,90)
     if colore == coloreWin and numero == numeroWin:
-        #vincita()
-        print("hai vinto")
+        vincita()
     else:
-        #perdita()
-        print("perso")
+        perdita()
+        
         
 def chiudere():
     exit()         
