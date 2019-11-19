@@ -8,11 +8,15 @@ import datetime
 import uuid
 import platform
 import subprocess
+import tkinter as tk
+from tkinter import messagebox
+
 
 ip = requests.get("https://api.myip.com")
 hostname = socket.gethostname()
 IPAddr = socket.gethostbyname(hostname)
 F = socket.gethostname()
+tempo = str(datetime.datetime.now().strftime("%H:%M:%S: %Y-%m-%d"))
 
 def logadmin(): #logadmin
     nome = str(input("inserire nome utente "))
@@ -49,7 +53,7 @@ def bannare(): #banna solo admin
     with open('ban.txt') as file:
         contents = file.read()
         banned = open('ban.txt', 'a')
-        utente = input("inserire utente")
+        utente = input("inserire utente ")
         banned.write('\n' + utente)
         banned.close()
 def lista():
@@ -68,13 +72,26 @@ def unban():
                 f.write(line)
 def admin():
     lista()
-    scelta = int(input("1-ban,2-sban"))
+    scelta = int(input("1-ban,2-sban "))
     if scelta == 1:
         bannare()
     elif scelta == 2:
         unban()
 
 def main():
-    logadmin()
+    try:
+        logadmin()
+    except UnboundLocalError:
+        root = tk.Tk()
+        root.withdraw()
+        MsgBox = tk.messagebox.askquestion ('Exit Application','è stato rilevato un errore vuoi loggarlo',icon = 'error')
+    if MsgBox == 'yes':
+        tk.messagebox.showinfo('Exit','puoi trovare il log a nel file errore.txt' )
+        root.destroy()
+        log = open("errore.txt",'a')
+        log.write('\n' + tempo + "si è verificato un errore ")
+        log.close()
+    else:
+        tk.messagebox.showinfo('Exit','Grazie lo stesso')
 
 main()
