@@ -26,20 +26,23 @@ def menu(): #menu
     print("6-altri comandi")
 
 def scegli(): #scelta menu
-    modalita = int(input("scegli la modalità di gioco "))
-    while modalita not in [1,2,3,4,5,6]:
-        print("modalità di gioco non disponibile ")
+    try:
         modalita = int(input("scegli la modalità di gioco "))
-    if modalita == 1:
-        chiudere()
-    if modalita == 2:
-        roulette()
-    if modalita == 3:
-        blackjack()
-    if modalita == 4:
-        indovinalacarta()
-    if modalita == 5:
-        ricarica() 
+        while modalita not in [1,2,3,4,5,6]:
+            print("modalità di gioco non disponibile ")
+            modalita = int(input("scegli la modalità di gioco "))
+        if modalita == 1:
+            chiudere()
+        if modalita == 2:
+            roulette()
+        if modalita == 3:
+            blackjack()
+        if modalita == 4:
+            indovinalacarta()
+        if modalita == 5:
+            ricarica()
+    except ValueError:
+        print("errore inserire solo numeri")
    
 
 
@@ -205,18 +208,16 @@ def indovinalacarta():#indovina la carta
     else:
         perdita()
         print("hai perso")
-
 def blackjack():
     giocata()
     print("benvenuto nel blackjack")
     x=int(input("premi 1 per giocare a modalita facile, 2 per modalita difficile "))
     if x == 1:
-        #giocata()
         banco = random.randint(10,21)
         if banco != 21:
             banco = banco + 1
             print("mescolando")
-            time.sleep(4)
+            time.sleep(2)
             giocatore =  random.randint(0,13)
             print(giocatore)
             continuare = str(input("continuare "))
@@ -227,19 +228,19 @@ def blackjack():
                 giocatore = giocatore +  random.randint(1,13)
                 print(giocatore)
                 continuare = str(input("continuare "))
-                if continuare != "si":
-                    continuare = False
-                    if banco > giocatore or giocatore > 21:
-                        perdita()
-                    else:
-                        vincita()
+            if continuare != "si":
+                if banco > giocatore or giocatore > 21:
+                    perdita()
+                else:
+                    vincita()
+
     else:
         print("modalita difficile attivata ")
         banco = random.randint(10,21)
         if banco != 21:
             banco = banco + 1
             print("mescolando")
-            time.sleep(4)
+            time.sleep(2)
             giocatore =  random.randint(1,13)
             print(giocatore)
             continuare = str(input("continuare "))
@@ -249,12 +250,12 @@ def blackjack():
                     print("hai superato 21 ")
                     break
                 continuare = str(input("continuare "))
-                if continuare != "si":
-                    continuare = False
-                    if banco > giocatore or giocatore > 21:
-                        perdita()
-                    else:
-                        vincita()
+            if continuare != "si":
+                continuare = False
+                if banco > giocatore or giocatore > 21:
+                    perdita()
+                else:
+                    vincita()
 
 def roulette():
     giocata()
