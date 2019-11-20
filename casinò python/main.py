@@ -23,7 +23,8 @@ def menu(): #menu
     print("3-blackjack")
     print("4-indovina la carta")
     print("5-fondi")
-    print("6-altri comandi")
+    print("6-slot")
+    #print("7-altri comandi")
 
 def scegli(): #scelta menu
     try:
@@ -41,6 +42,8 @@ def scegli(): #scelta menu
             indovinalacarta()
         if modalita == 5:
             ricarica()
+        if modalita == 6:
+            slot()
     except ValueError:
         print("errore inserire solo numeri")
    
@@ -208,6 +211,47 @@ def indovinalacarta():#indovina la carta
     else:
         perdita()
         print("hai perso")
+ def slot():
+    giocata()
+    print("generando")
+    time.sleep(5)
+    x=random.randint(0,9)
+    y=random.randint(0,9)
+    z=random.randint(0,9)
+    a=random.randint(0,9)
+    b=random.randint(0,9)
+    c=random.randint(0,9)
+    d=random.randint(0,9)
+    e=random.randint(0,9)
+    f=random.randint(0,9)
+
+    print("-----------------")
+    print("|",x,"|",y,"|",z,"|")
+    print("|",a,"|",b,"|",c,"|")
+    print("|",d,"|",e,"|",f,"|")
+    print("-----------------")
+    
+    if x==y and y==z and z==a and a==b and b==c and c==d and d==e and e==f:
+        print("hai fatto jackpot")
+        vincita()
+    elif x==y and y==z:
+        vincita()
+    elif a==b and b==c:
+        vincita()
+    elif d==e and e==f:
+        vincita()
+    elif x==b and b==f:
+        vincita()
+    elif z==b and b==d:
+        vincita()
+    elif x==a and x==d:
+        vincita()
+    elif y==b and b==e:
+        vincita()
+    elif z==c and c==f:
+        vincita()
+    else:
+        perdita()
 def blackjack():
     giocata()
     print("benvenuto nel blackjack")
