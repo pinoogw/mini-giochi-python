@@ -317,7 +317,33 @@ def roulette():
         vincita()
     else:
         perdita()
-        
+ 
+def dadi():
+    giocata()
+    print("benvenuto nel gioco dei dadi")
+    x=random.randint(1,10)
+    vita=3
+    print("il tuo compito è cercare di indovinare qunato uscira nel lancio di " + str(x) + " lanci")
+    dado = 0
+    while x>0:
+        dadop=random.randint(1,6)
+        dado = dado + dadop
+        x=x-1
+    print("-----------------")
+    print(dado)
+    while vita>0:
+        giocatore=int(input("scegli il tuo numero "))
+        if giocatore == dado:
+            vincita()
+            break
+        else:
+            if giocatore>dado:
+                print("troppo alto")
+            else:
+                print("troppo basso")
+        vita=vita-1
+        if vita == 0:
+            perdita()
 def chiudere():
     exit()         
 
