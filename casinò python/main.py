@@ -24,12 +24,12 @@ def menu(): #menu
     print("4-indovina la carta")
     print("5-fondi")
     print("6-slot")
-    #print("7-altri comandi")
+    print("7-dadi")
 
 def scegli(): #scelta menu
     try:
         modalita = int(input("scegli la modalità di gioco "))
-        while modalita not in [1,2,3,4,5,6]:
+        while modalita not in [1,2,3,4,5,6,7]:
             print("modalità di gioco non disponibile ")
             modalita = int(input("scegli la modalità di gioco "))
         if modalita == 1:
@@ -44,6 +44,8 @@ def scegli(): #scelta menu
             ricarica()
         if modalita == 6:
             slot()
+        if modalita == 7:
+            dadi()
     except ValueError:
         print("errore inserire solo numeri")
    
