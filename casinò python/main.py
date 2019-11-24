@@ -323,7 +323,7 @@ def dadi():
     print("benvenuto nel gioco dei dadi")
     x=random.randint(1,10)
     vita=3
-    print("il tuo compito è cercare di indovinare qunato uscira nel lancio di " + str(x) + " lanci")
+    print("il tuo compito è cercare di indovinare quanto uscira nel lancio di " + str(x) + " lanci")
     dado = 0
     while x>0:
         dadop=random.randint(1,6)
