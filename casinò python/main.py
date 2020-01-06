@@ -117,7 +117,7 @@ def newusers(): #nuovo utente
     subprocess.check_call(["attrib","+H","newusers.txt"])
     login = input("inserire il nome utente")
     log = open("giocatore.txt", 'a')
-    log.write(login + '-' + F)
+    log.write(login)
     log.close()
 
 def autoban(): #ban automatico
