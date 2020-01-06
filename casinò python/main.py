@@ -82,7 +82,7 @@ def lista(): #comandi extra
 def giocatore():
     with open('giocatore.txt') as file:
         f = open('giocatore.txt','r')
-        giocatori = f.readline()
+        giocatori = f.readlines()
     print("benvenuto")
     print(giocatori)
     
@@ -116,7 +116,7 @@ def newusers(): #nuovo utente
     f = open("newusers.txt","w+")
     subprocess.check_call(["attrib","+H","newusers.txt"])
     login = input("inserire il nome utente")
-    log = open("giocatore.txt", 'a')
+    log = open("giocatore.txt", 'w')
     log.write(login)
     log.close()
 
