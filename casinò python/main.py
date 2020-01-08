@@ -29,11 +29,32 @@ def menu(): #menu
     print("6-slot")
     print("7-dadi")
     print("8-informazioni-personali")
+    print("9-riepilogo in html")
+
+def html():
+    f = open('giocate.txt','r')
+    giocatori = f.readline()
+    giocatori=int(giocatori)
+    f.close()
+    l=open('vincite.txt','r')
+    vincite=l.readline()
+    vincite=int(vincite)
+    l.close()
+    percentuale=vincite/giocatori
+    percentuale1=percentuale*100
+    f = open('stats.html','w+')
+    message = """<html>
+    <head></head>
+    <body><p>Hai vinto """ + str(vincite) + """ partite hai giocato """ + str(giocatori) + """ partite la  percentuale è   """ + str(percentuale1) +  """% </p></body>
+    </html>"""
+    f.write(message)
+    f.close()
+    os.startfile('stats.html')
 
 def scegli(): #scelta menu
     try:
         modalita = int(input("scegli la modalità di gioco "))
-        while modalita not in [1,2,3,4,5,6,7,8]:
+        while modalita not in [1,2,3,4,5,6,7,8,9]:
             print("modalità di gioco non disponibile ")
             modalita = int(input("scegli la modalità di gioco "))
         if modalita == 1:
@@ -52,6 +73,8 @@ def scegli(): #scelta menu
             dadi()
         if modalita == 8:
             informazioni()
+        if modalita == 9:
+            html()
     except ValueError:
         print("errore inserire solo numeri")
    
@@ -201,6 +224,7 @@ def ammonizioni():
 def informazioni():
     sa = open('fondi-giocatore.txt','r')
     soldi = sa.readline()
+    sa.close()
     print("credito attuale " + soldi)
     f = open('giocatore.txt','r')
     giocatori = f.readline()
@@ -217,7 +241,7 @@ def informazioni():
     f = open('ammonizioni.txt','r')
     giocatori = f.readline()
     f.close()
-    print("hai " + giocatori + "/3 ammonizioni")
+    print("advice " + giocatori)
     os.system("PAUSE")
 
 def vincita():
@@ -248,6 +272,15 @@ def vincita():
     log = open("transizioni.txt",'a')
     log.write(str('\n' + tempo + "si è verificata una perdita della banca di " + str(assow) ))
     log.close()
+    l=open('vincite.txt','r')
+    vincite=l.readline()
+    vincite=int(vincite)
+    l.close()
+    vincitep=vincite+1
+    l=open('vincite.txt','w')
+    l.write(str(vincitep))
+    l.close()
+
 
 def perdita():
     root = tk.Tk()
