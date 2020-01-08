@@ -1,4 +1,4 @@
-﻿
+﻿import win32console, win32gui, win32con
 import random
 import os
 import socket
@@ -13,6 +13,11 @@ from tkinter import messagebox
 
 
 tempo = str(datetime.datetime.now().strftime("%H:%M:%S: %Y-%m-%d"))
+hwnd = win32console.GetConsoleWindow()
+if hwnd:
+   hMenu = win32gui.GetSystemMenu(hwnd, 0)
+   if hMenu:
+       win32gui.DeleteMenu(hMenu, win32con.SC_CLOSE, win32con.MF_BYCOMMAND)
 
 
 def menu(): #menu
