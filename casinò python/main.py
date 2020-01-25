@@ -30,6 +30,7 @@ def menu(): #menu
     print("7-dadi")
     print("8-informazioni-personali")
     print("9-riepilogo in html")
+    print("10-cambio nome")
 
 def html():
     f = open('giocate.txt','r')
@@ -54,7 +55,7 @@ def html():
 def scegli(): #scelta menu
     try:
         modalita = int(input("scegli la modalità di gioco "))
-        while modalita not in [1,2,3,4,5,6,7,8,9]:
+        while modalita not in [1,2,3,4,5,6,7,8,9,10]:
             print("modalità di gioco non disponibile ")
             modalita = int(input("scegli la modalità di gioco "))
         if modalita == 1:
@@ -75,6 +76,8 @@ def scegli(): #scelta menu
             informazioni()
         if modalita == 9:
             html()
+        if modalita == 10:
+            cambianome()
     except ValueError:
         print("errore inserire solo numeri")
    
@@ -85,6 +88,29 @@ IPAddr = socket.gethostbyname(hostname)
 F = socket.gethostname()
 
 
+def cambianome():
+    x=random.randint(1000,9999)
+    print(x)
+    f=int(input("per piacere inserisci il codice di sicurezza"))
+    if f==x:
+        print("sono,sicuro di voler cambiare nome costo $500,premere si")
+        x=input()
+        if x== "si":
+            print("pagamento in corso")
+            vincita = open('fondi-giocatore.txt','r')
+            soldi = vincita.readline()
+            soldi = int(soldi)
+            vincita.close()
+            cambio=open("fondi-giocatore.txt","w")
+            soldi=soldi-500
+            cambio.write(str(soldi))
+            cambio.close()
+            print("pagamento riuscito")
+            nuovo_nome=input("inserire nuovo nome")
+            cambio_nome=open("giocatore.txt",'w')
+            cambio_nome.write(nuovo_nome)
+            cambio_nome.close()
+            os.execl("main.py")
 
 def ban(): #ban
     F = socket.gethostname()
@@ -148,6 +174,12 @@ def newusers(): #nuovo utente
     log.write(login)
     log.close()
 
+def GetUUID():
+   cmd = 'wmic csproduct get uuid'
+   uuid = str(subprocess.check_output(cmd))
+   pos1 = uuid.find("\\n")+2
+   uuid = uuid[pos1:-15]
+   return uuid
 def autoban(): #ban automatico
     z = os.stat("giocatore.txt").st_size
     if z == 0 and os.path.isfile('newusers.txt') is True:
@@ -241,6 +273,7 @@ def informazioni():
     f = open('ammonizioni.txt','r')
     giocatori = f.readline()
     f.close()
+    print("identificatore " + str(GetUUID()))
     print("advice " + giocatori)
     os.system("PAUSE")
 
@@ -367,6 +400,7 @@ def blackjack():
         banco = random.randint(10,21)
         if banco != 21:
             banco = banco + 1
+            print(banco)
             print("mescolando")
             time.sleep(2)
             giocatore =  random.randint(0,13)
