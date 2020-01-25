@@ -38,14 +38,15 @@ def logadmin(): #logadmin
                             print("nome utente non corretto ")
                         with open('accesso.txt') as file:
                             testate = open('accesso.txt', 'a')
-                            testate.write("attenzione rilevato con password errato alle " + tempo + '\n' + "Dati " + '\n'  + hostname + IPAddr + platform.platform())
+                            tempo = str(datetime.datetime.now())
+                            testate.write("attenzione rilevato con password errato alle " + str(tempo) + '\n' + "Dati " + '\n'  + hostname + IPAddr + platform.platform())
                             testate.close()
             else:
                 print("nome utente non corretto ")
                 tempo = str(datetime.datetime.now())
             with open('accesso.txt') as file:
                 testate = open('accesso.txt', 'a')
-                testate.write('\n' + "attenzione rilevato con nome errato alle " + tempo + '\n' + "Dati "  + '\n' + 'Nome pc ' + hostname + '\n' + 'IP del pc ' + IPAddr + '\n' + 'OS ' + platform.platform())
+                testate.write('\n' + "attenzione rilevato con nome errato alle " + str(tempo) + '\n' + "Dati "  + '\n' + 'Nome pc ' + hostname + '\n' + 'IP del pc ' + IPAddr + '\n' + 'OS ' + platform.platform())
                 testate.close()
                 exit()
                 
@@ -54,7 +55,7 @@ def bannare(): #banna solo admin
         contents = file.read()
         banned = open('ban.txt', 'a')
         utente = input("inserire utente ")
-        banned.write('\n' + utente)
+        banned.write(str(utente+"\n"))
         banned.close()
 def lista():
     with open('ban.txt') as file:
@@ -71,6 +72,7 @@ def unban():
         for line in lines:
             if line.strip("\n") != x:
                 f.write(line)
+                
 def ammonizioni():
     f=open("ammonizioni.txt","r")
     a=f.readline()
