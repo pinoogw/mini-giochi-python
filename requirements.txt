@@ -11,4 +11,4 @@ import subprocess
 import tkinter as tk
 from tkinter import messagebox
 import win32console, win32gui, win32con (pywin32)
-
+cv2
