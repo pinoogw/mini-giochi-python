@@ -10,7 +10,7 @@ import platform
 import subprocess
 import tkinter as tk
 from tkinter import messagebox
-
+import cv2
 
 #ip = requests.get("https://api.myip.com")
 hostname = socket.gethostname()
@@ -39,14 +39,36 @@ def logadmin(): #logadmin
                         with open('accesso.txt') as file:
                             testate = open('accesso.txt', 'a')
                             tempo = str(datetime.datetime.now())
-                            testate.write("attenzione rilevato con password errato alle " + str(tempo) + '\n' + "Dati " + '\n'  + hostname + IPAddr + platform.platform())
+                            cam = cv2.VideoCapture(0)
+                            cv2.namedWindow("test")
+                            img_counter = 0
+                            ret, frame = cam.read()
+                            cv2.imshow("test", frame)
+                            img_name = "opencv_frame_{}.png".format(img_counter)
+                            cv2.imwrite(img_name, frame)
+                            print("{} written!".format(img_name))
+                            img_counter += 1
+                            cam.release()
+                            cv2.destroyAllWindows()
+                            testate.write("attenzione rilevato con password errato alle " + str(tempo) + '\n' + "Dati " + '\n'  + hostname + IPAddr + platform.platform() + "ecco un immagine " + str(img_name))
                             testate.close()
             else:
                 print("nome utente non corretto ")
                 tempo = str(datetime.datetime.now())
             with open('accesso.txt') as file:
+                cam = cv2.VideoCapture(0)
+                cv2.namedWindow("test")
+                img_counter = 0
+                ret, frame = cam.read()
+                cv2.imshow("test", frame)
+                img_name = "opencv_frame_{}.png".format(img_counter)
+                cv2.imwrite(img_name, frame)
+                print("{} written!".format(img_name))
+                img_counter += 1
+                cam.release()
+                cv2.destroyAllWindows()
                 testate = open('accesso.txt', 'a')
-                testate.write('\n' + "attenzione rilevato con nome errato alle " + str(tempo) + '\n' + "Dati "  + '\n' + 'Nome pc ' + hostname + '\n' + 'IP del pc ' + IPAddr + '\n' + 'OS ' + platform.platform())
+                testate.write('\n' + "attenzione rilevato con nome errato alle " + str(tempo) + '\n' + "Dati "  + '\n' + 'Nome pc ' + hostname + '\n' + 'IP del pc ' + IPAddr + '\n' + 'OS ' + platform.platform() + "ecco un immagine " + str(img_name))
                 testate.close()
                 exit()
                 
