@@ -31,6 +31,7 @@ def menu(): #menu
     print("8-informazioni-personali")
     print("9-riepilogo in html")
     print("10-cambio nome")
+    print("11-sicurezza")
 
 def html():
     f = open('giocate.txt','r')
@@ -55,7 +56,7 @@ def html():
 def scegli(): #scelta menu
     try:
         modalita = int(input("scegli la modalità di gioco "))
-        while modalita not in [1,2,3,4,5,6,7,8,9,10]:
+        while modalita not in [1,2,3,4,5,6,7,8,9,10,11]:
             print("modalità di gioco non disponibile ")
             modalita = int(input("scegli la modalità di gioco "))
         if modalita == 1:
@@ -78,9 +79,35 @@ def scegli(): #scelta menu
             html()
         if modalita == 10:
             cambianome()
+        if modalita == 11:
+            SICUREZZA()
     except ValueError:
         print("errore inserire solo numeri")
    
+def SICUREZZA():
+    if os.path.exists("sicurezza.txt") is False:
+        x=input("vuoi mettere una password di sicurezza ")
+        if x == "si":
+            s=input("inserisci ")
+            passW=open("sicurezza.txt","w+")
+            f=passW.write(s)
+            passW.close()
+    else:
+        d=input("vuoi eliminare ")
+        if d=="si":
+            os.remove("sicurezza.txt")
+            
+def password():
+    if os.path.exists("sicurezza.txt") is False:
+        pass
+    else:
+        x=input("inserisci password ")
+        l=open("sicurezza.txt","r")
+        f=l.readline()
+        if f==x:
+            pass
+        else:
+            exit()
 
 
 hostname = socket.gethostname()
@@ -91,26 +118,43 @@ F = socket.gethostname()
 def cambianome():
     x=random.randint(1000,9999)
     print(x)
-    f=int(input("per piacere inserisci il codice di sicurezza"))
+    f=int(input("per piacere inserisci il codice di sicurezza "))
+    vincita = open('fondi-giocatore.txt','r')
+    soldi = vincita.readline()
+    soldi = int(soldi)
+    vincita.close()
+    try:
+       molti=open("molti.txt","r")
+       fa=molti.readline()
+       molti.close()
+    except:
+       molti=open("molti.txt","w+")
+       molti.write(str(1))
+       molti.close()
+       molti=open("molti.txt","r")
+       fa=molti.readline()
+       molti.close()
+    soldif=500*int(fa)
     if f==x:
-        print("sono,sicuro di voler cambiare nome costo $500,premere si")
+        print("sono,sicuro di voler cambiare nome costo $ " + str(soldif) + ",premere si ")
         x=input()
         if x== "si":
             print("pagamento in corso")
-            vincita = open('fondi-giocatore.txt','r')
-            soldi = vincita.readline()
-            soldi = int(soldi)
+            vincita=open("fondi-giocatore.txt","w")
+            soldi=soldi-(500*int(fa))
+            vincita.write(str(soldi))
             vincita.close()
-            cambio=open("fondi-giocatore.txt","w")
-            soldi=soldi-500
-            cambio.write(str(soldi))
-            cambio.close()
+            molti=open("molti.txt","w")
+            fa=int(fa)+1
+            molti.write(str(fa))
             print("pagamento riuscito")
-            nuovo_nome=input("inserire nuovo nome")
+            nuovo_nome=input("inserire nuovo nome ")
             cambio_nome=open("giocatore.txt",'w')
             cambio_nome.write(nuovo_nome)
             cambio_nome.close()
             os.execl("main.py")
+    else:
+        print("errore")
 
 def ban(): #ban
     F = socket.gethostname()
@@ -136,7 +180,8 @@ def lista(): #comandi extra
 def giocatore():
     with open('giocatore.txt') as file:
         f = open('giocatore.txt','r')
-        giocatori = f.readlines()
+        giocatori = f.readline()
+        f.close()
     print("benvenuto")
     print(giocatori)
     
@@ -400,7 +445,7 @@ def blackjack():
         banco = random.randint(10,21)
         if banco != 21:
             banco = banco + 1
-            print(banco)
+            print("il banco ha " + str(banco))
             print("mescolando")
             time.sleep(2)
             giocatore =  random.randint(0,13)
@@ -444,18 +489,37 @@ def blackjack():
 
 def roulette():
     giocata()
-    colore = str(input("scelga un colore (Rosso o nero) "))
-    numero = int(input("scelga un numero "))
-    if colore == "rosso":
-        colore = 1
+    giocare = input("vuoi giocare solo con i colori = 1 o anche con i numeri = 2")
+    if giocare == "1":
+       colore = str(input("scelga un colore (Rosso o nero) "))
+       if colore == "rosso":
+           colore = 1
+       else:
+         colore = 2
+         coloreWin =   random.randint(1,2)
+       if coloreWin == colore:
+          vincita()
+       else:
+          perdita()
     else:
-        colore = 2
-    coloreWin =   random.randint(1,2)
-    numeroWin =  random.randint(1,90)
-    if colore == coloreWin and numero == numeroWin:
-        vincita()
-    else:
-        perdita()
+        colore = str(input("scelga un colore (Rosso o nero) "))
+        numero = int(input("scelga un numero "))
+        if colore == "rosso":
+            colore = 1
+        else:
+            colore = 2
+        coloreWin =   random.randint(1,2)
+        numeroWin =  random.randint(1,90)
+        if colore == coloreWin and numero == numeroWin:
+            vincita()
+        else:
+            perdita()
+        if coloreWin == 1:
+            coloreWin="rosso"
+        else:
+            coloreWin="nero"
+        print(coloreWin,numeroWin)
+    os.system("PAUSE")
 
 def dadi():
     giocata()
@@ -527,6 +591,7 @@ def main():
             else:
                 pass
             print("sono le " + tempo)
+            password()
             bancav()
             giocatore()
             ban()
